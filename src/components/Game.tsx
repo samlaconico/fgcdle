@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import { SpecialsList } from "@/data/index";
 
@@ -17,10 +17,6 @@ export default function Game() {
     setCurrent(current + 1);
     setInput(undefined);
     setMoveInput(SpecialsList[current + 1].input);
-  };
-
-  const clearInput = () => {
-    setInput(undefined);
   };
 
   if (input == moveInput) {
@@ -43,7 +39,7 @@ export default function Game() {
         setIsLose(true);
       }
     }
-  }, [input]);
+  }, [input, moveInput]);
 
   return (
     <div className="m-auto my-32 text-center text-white">
