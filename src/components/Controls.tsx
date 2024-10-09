@@ -2,10 +2,8 @@ import { input } from "@/data";
 
 export default function Controls({
   callback,
-  clearInput,
 }: {
-  callback: any;
-  clearInput: any;
+  callback: (newInput : string) => void;
 }) {
   return (
     <div>
@@ -29,7 +27,7 @@ function DirectionButton({
   callback,
 }: {
   children: string;
-  callback: any;
+  callback: (newInput : string) => void;
 }) {
   return (
     <div
@@ -41,17 +39,6 @@ function DirectionButton({
       <div className="flex flex-col justify-center">
         {input[Number(children)].icon}
       </div>
-    </div>
-  );
-}
-
-function ResetButton({ onClick }: { onClick: any }) {
-  return (
-    <div
-      className="m-auto my-10 size-16 rounded-md bg-yellow-300 text-black transition-all hover:scale-110 hover:cursor-pointer"
-      onClick={onClick}
-    >
-      <div className="flex flex-col justify-center">Reset</div>
     </div>
   );
 }

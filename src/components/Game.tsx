@@ -46,21 +46,20 @@ export default function Game() {
   }, [input]);
 
   return (
-    <div className="m-auto text-center text-white my-32">
-      
-      <div className="w-screen md:w-[50vw] h-96 relative m-auto">
-      <Image
-        src={SpecialsList[current].image}
-        alt=""
-        width="0"
-        height="0"
-        sizes="100vw"
-        className="w-fit h-full object-cover pointer-events-none relative m-auto"
-      />
+    <div className="m-auto my-32 text-center text-white">
+      <div className="relative m-auto h-96 w-screen md:w-[50vw]">
+        <Image
+          src={SpecialsList[current].image}
+          alt=""
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="pointer-events-none relative m-auto h-full w-fit object-cover"
+        />
       </div>
       <div>{isLose ? "you lose" : ""}</div>
       <div>{input ? input : "Input"}</div>
-      <Controls callback={addToInput} clearInput={clearInput} />
+      <Controls callback={addToInput} />
     </div>
   );
 }
