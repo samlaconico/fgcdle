@@ -59,8 +59,8 @@ export default function Game() {
       </div>
       <div>{isLose ? "you lose" : ""}</div>
       <div className="flex flex-row m-auto justify-center mt-10">
-        {inputIcons.map((value, index, array) => (
-          <div>{value}</div>
+        {inputIcons.map((value, index) => (
+          <div key={index}>{value}</div>
         ))}
       </div>
       <Controls callback={addToInput} />
