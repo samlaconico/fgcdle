@@ -1,4 +1,4 @@
-import { input } from "@/data";
+import { inputList } from "@/data";
 
 export default function Controls({
   callback,
@@ -37,7 +37,7 @@ function DirectionButton({
       }}
     >
       <div className="flex flex-col justify-center">
-        {input[Number(children)].icon}
+        {inputList[Number(children)].icon}
       </div>
     </div>
   );

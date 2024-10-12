@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import { SpecialsList } from "@/data/index";
+import { inputList } from "@/data";
 
 export default function Game() {
   const [current, setCurrent] = useState<number>(0);
@@ -11,6 +12,7 @@ export default function Game() {
     SpecialsList[current].input,
   );
   const [input, setInput] = useState<string>();
+  const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
   const [isLose, setIsLose] = useState<boolean>(false);
 
   const reset = () => {
@@ -26,8 +28,10 @@ export default function Game() {
   const addToInput = (newInput: string) => {
     if (input != undefined) {
       setInput(`${input}${newInput}`);
+      setInputIcons([...inputIcons, inputList[+newInput].icon]);
     } else {
       setInput(newInput);
+      setInputIcons([inputList[+newInput].icon]);
     }
   };
 
@@ -54,7 +58,11 @@ export default function Game() {
         />
       </div>
       <div>{isLose ? "you lose" : ""}</div>
-      <div>{input ? input : "Input"}</div>
+      <div className="flex flex-row m-auto justify-center mt-10">
+        {inputIcons.map((value, index, array) => (
+          <div>{value}</div>
+        ))}
+      </div>
       <Controls callback={addToInput} />
     </div>
   );

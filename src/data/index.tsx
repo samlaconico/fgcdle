@@ -48,7 +48,7 @@ export const SpecialsList = [
   }
 ];
 
-export const input = [
+export const inputList = [
   {
     direction: 0,
     icon: <MdSouthWest />,
