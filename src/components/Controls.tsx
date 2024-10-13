@@ -31,7 +31,7 @@ function DirectionButton({
 }) {
   return (
     <div
-      className="size-20 md:size-28 rounded-3xl bg-yellow-300 text-black transition-all hover:scale-110 hover:cursor-pointer"
+      className="size-16 rounded-3xl bg-yellow-300 text-black transition-all hover:scale-110 hover:cursor-pointer"
       onClick={() => {
         callback(children);
       }}
