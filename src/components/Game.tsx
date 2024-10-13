@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import { SpecialsList } from "@/data/index";
 import { inputList } from "@/data";
+import { motion } from "framer-motion";
+import { useAnimate } from "framer-motion";
 
 export default function Game() {
   const [current, setCurrent] = useState<number>(0);
@@ -14,9 +16,14 @@ export default function Game() {
   const [input, setInput] = useState<string>();
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
   const [isLose, setIsLose] = useState<boolean>(false);
+  const [scope, animate] = useAnimate();
 
-  const reset = () => {
+  const reset = async () => {
+    animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
+    await new Promise((resolve) => setTimeout(resolve, 300));
     setCurrent(current + 1);
+    animate("div", { opacity: 1, y: 0 }, { duration: 0.3, delay: .1 });
+
     setInput(undefined);
     setMoveInput(SpecialsList[current + 1].input);
   };
@@ -26,12 +33,14 @@ export default function Game() {
   }
 
   const addToInput = (newInput: string) => {
-    if (input != undefined) {
-      setInput(`${input}${newInput}`);
-      setInputIcons([...inputIcons, inputList[+newInput].icon]);
-    } else {
-      setInput(newInput);
-      setInputIcons([inputList[+newInput].icon]);
+    if (newInput != "5") {
+      if (input != undefined) {
+        setInput(`${input}${newInput}`);
+        setInputIcons([...inputIcons, inputList[+newInput].icon]);
+      } else {
+        setInput(newInput);
+        setInputIcons([inputList[+newInput].icon]);
+      }
     }
   };
 
@@ -47,18 +56,20 @@ export default function Game() {
 
   return (
     <div className="m-auto my-32 text-center text-white">
-      <div className="relative m-auto h-96 w-screen md:w-[50vw]">
-        <Image
-          src={SpecialsList[current].image}
-          alt=""
-          width="0"
-          height="0"
-          sizes="100vw"
-          className="pointer-events-none relative m-auto h-full w-fit object-cover"
-        />
-      </div>
+      <motion.div ref={scope} className="">
+        <div className="relative m-auto h-96 w-screen md:w-[50vw]">
+          <Image
+            src={SpecialsList[current].image}
+            alt=""
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="pointer-events-none relative m-auto h-full w-fit object-cover"
+          />
+        </div>
+      </motion.div>
       <div>{isLose ? "you lose" : ""}</div>
-      <div className="flex flex-row m-auto justify-center mt-10">
+      <div className="m-auto mt-10 flex h-12 flex-row justify-center">
         {inputIcons.map((value, index) => (
           <div key={index}>{value}</div>
         ))}
