@@ -56,8 +56,8 @@ export default function Game() {
   return (
     <div className="m-auto my-12 px-8 md:my-32 text-center text-white">
       <motion.div ref={scope} className="">
-        <div className="md:h-96">
-          <img className="m-auto h-full" src={SpecialsList[current].image}/>
+        <div className="h-[40vh] aspect-auto w-full md:h-96">
+          <img className="m-auto h-full w-auto" src={SpecialsList[current].image}/>
         </div>
       </motion.div>
       <div>{isLose ? "you lose" : ""}</div>
