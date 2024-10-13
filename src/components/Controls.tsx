@@ -7,7 +7,7 @@ export default function Controls({
 }) {
   return (
     <div>
-      <div className="m-auto grid w-64 grid-cols-3 content-around items-center justify-around justify-items-center gap-y-3 py-12">
+      <div className="m-auto w-max grid grid-cols-3 content-around items-center justify-around justify-items-center gap-3 py-12">
         <DirectionButton callback={callback}>7</DirectionButton>
         <DirectionButton callback={callback}>8</DirectionButton>
         <DirectionButton callback={callback}>9</DirectionButton>
@@ -31,13 +31,13 @@ function DirectionButton({
 }) {
   return (
     <div
-      className="size-16 rounded-md bg-yellow-300 text-black transition-all hover:scale-110 hover:cursor-pointer"
+      className="size-20 md:size-28 rounded-3xl bg-yellow-300 text-black transition-all hover:scale-110 hover:cursor-pointer"
       onClick={() => {
         callback(children);
       }}
     >
-      <div className="flex flex-col justify-center">
-        {inputList[Number(children)].icon}
+      <div className="flex w-full h-full flex-col justify-center">
+        <div className="flex flex-row justify-center">{inputList[Number(children)].icon}</div>
       </div>
     </div>
   );
