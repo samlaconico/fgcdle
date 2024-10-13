@@ -54,9 +54,9 @@ export default function Game() {
   }, [input, moveInput]);
 
   return (
-    <div className="m-auto my-32 text-center text-white">
+    <div className="m-auto my-12 px-8 md:my-32 text-center text-white">
       <motion.div ref={scope} className="">
-        <div className="h-96">
+        <div className="md:h-96">
           <img className="m-auto h-full" src={SpecialsList[current].image}/>
         </div>
       </motion.div>

@@ -7,7 +7,7 @@ export default function Controls({
 }) {
   return (
     <div>
-      <div className="m-auto w-max grid grid-cols-3 content-around items-center justify-around justify-items-center gap-3 py-12">
+      <div className="m-auto w-max grid grid-cols-3 content-around items-center justify-around justify-items-center gap-3 md:py-12">
         <DirectionButton callback={callback}>7</DirectionButton>
         <DirectionButton callback={callback}>8</DirectionButton>
         <DirectionButton callback={callback}>9</DirectionButton>
