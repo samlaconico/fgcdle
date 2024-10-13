@@ -55,38 +55,38 @@ export const inputList = [
   },
   {
     direction: 1,
-    icon: <MdSouthWest className="size-16" />,
+    icon: <MdSouthWest className="w-full h-full" />,
   },
   {
     direction: 2,
-    icon: <MdSouth className="size-16" />,
+    icon: <MdSouth className="w-full h-full" />,
   },
   {
     direction: 3,
-    icon: <MdSouthEast className="size-16" />,
+    icon: <MdSouthEast className="w-full h-full" />,
   },
   {
     direction: 4,
-    icon: <MdWest className="size-16" />,
+    icon: <MdWest className="w-full h-full" />,
   },
   {
     direction: 5,
-    icon: <MdLens className="size-16" />,
+    icon: <MdLens className="w-full h-full" />,
   },
   {
     direction: 6,
-    icon: <MdEast className="size-16" />,
+    icon: <MdEast className="w-full h-full" />,
   },
   {
     direction: 7,
-    icon: <MdNorthWest className="size-16" />,
+    icon: <MdNorthWest className="w-full h-full" />,
   },
   {
     direction: 8,
-    icon: <MdNorth className="size-16" />,
+    icon: <MdNorth className="w-full h-full" />,
   },
   {
     direction: 9,
-    icon: <MdNorthEast className="size-16" />,
+    icon: <MdNorthEast className="w-full h-full" />,
   },
 ];

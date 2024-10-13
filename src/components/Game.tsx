@@ -20,8 +20,8 @@ export default function Game() {
   const reset = async () => {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
     await new Promise((resolve) => setTimeout(resolve, 300));
-    setCurrent(current + 1);
-    animate("div", { opacity: 1, y: 0 }, { duration: 0.3, delay: 0.1 });
+    setCurrent(current + 1)
+    animate("div", { opacity: 1, y: 0 }, { duration: 0.3, delay: 0.3 });
 
     setInput(undefined);
     setMoveInput(SpecialsList[current + 1].input);
