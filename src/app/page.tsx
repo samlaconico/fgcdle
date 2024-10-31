@@ -1,8 +1,6 @@
 "use client";
 
-import DialogueBox from "@/components/DialogueBox";
 import MotionGame from "@/components/Game";
-import { StageGame } from "@/components/Game";
 import Header from "@/components/Header";
 import { motion } from "framer-motion";
 
