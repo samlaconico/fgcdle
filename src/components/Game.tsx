@@ -71,7 +71,13 @@ export default function MotionGame() {
         </div>
       </motion.div>
       <div>
-        {isLose ? <DialogueBox body="you lose" header="you lose ahah" /> : ""}
+        {isLose ? (
+          <DialogueBox header="you lose ahah">
+            <p>you lose</p>
+          </DialogueBox>
+        ) : (
+          ""
+        )}
       </div>
       <div className="m-auto mb-10 mt-10 flex h-12 flex-row justify-center md:mb-0">
         {inputIcons.map((value, index) => (

@@ -3,18 +3,18 @@ import { useLayoutEffect, useRef } from "react";
 
 type DialogueBoxProps = {
   header: string;
-  body: string;
+  children: React.ReactNode;
 };
 
-export default function DialogueBox({ header, body}: DialogueBoxProps) {
+export default function DialogueBox({ header, children }: DialogueBoxProps) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   dialogRef.current?.showModal();
   useLayoutEffect(() => {
-    dialogRef.current?.showModal()
+    dialogRef.current?.showModal();
     return () => {
-      dialogRef.current?.close()
-    }
-  }, [])
+      dialogRef.current?.close();
+    };
+  }, []);
 
   return (
     <motion.dialog
@@ -22,13 +22,20 @@ export default function DialogueBox({ header, body}: DialogueBoxProps) {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }}
-      className="p-10 rounded-md bg-neutral-600 text-white"
+      className="rounded-md bg-neutral-600 p-10 text-white"
     >
       <h1 className="mb-6 text-3xl font-bold">{header}</h1>
 
-      <p className="text-xl">{body}</p>
+      <p className="mb-6 text-xl">{children}</p>
 
-      <button onClick={() => {dialogRef.current?.close()}} className="bg-neutral-300 text-black py-0.5 px-2 rounded-sm hover:scale-105 transition-all"> Close </button>
+      <button
+        onClick={() => {
+          dialogRef.current?.close();
+        }}
+        className="rounded-sm bg-neutral-300 px-2 py-0.5 text-black transition-all hover:scale-105"
+      >
+        Close
+      </button>
     </motion.dialog>
   );
 }
