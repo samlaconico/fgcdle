@@ -1,6 +1,8 @@
 "use client";
 
-import Game from "@/components/Game";
+import DialogueBox from "@/components/DialogueBox";
+import MotionGame from "@/components/Game";
+import { StageGame } from "@/components/Game";
 import Header from "@/components/Header";
 import { motion } from "framer-motion";
 
@@ -15,7 +17,7 @@ export default function Home() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className=""
       >
-        <Game />
+        <MotionGame />
       </motion.div>
     </div>
   );

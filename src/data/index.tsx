@@ -71,7 +71,7 @@ export const inputList = [
   },
   {
     direction: 5,
-    icon: <MdLens className="w-full h-full" />,
+    icon: <MdLens className="w-1/2 h-full" />,
   },
   {
     direction: 6,
