@@ -17,6 +17,7 @@ export default function MotionGame() {
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
   const [isLose, setIsLose] = useState<boolean>(false);
   const [scope, animate] = useAnimate();
+  const [wrongGuesses, setWrongGuesses] = useState<number>(0);
 
   const reset = async () => {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
@@ -55,7 +56,8 @@ export default function MotionGame() {
       if (
         input.charAt(input.length - 1) != moveInput.charAt(input.length - 1)
       ) {
-        setIsLose(true);
+        setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
+        reset();
       }
     }
   }, [input, moveInput]);
@@ -63,11 +65,12 @@ export default function MotionGame() {
   return (
     <div className="m-auto my-12 px-8 text-center text-white md:my-32">
       <motion.div ref={scope} className="">
-        <div className="aspect-auto h-[40vh] w-full md:h-96">
+        <div className="flex aspect-auto h-[40vh] w-full flex-col md:h-96">
           <img
-            className="m-auto h-full w-auto"
+            className="m-auto h-fit w-auto md:h-full"
             src={SpecialsList[current].image}
           />
+          <button onClick={reset}>next</button>
         </div>
       </motion.div>
       <div>
@@ -84,6 +87,7 @@ export default function MotionGame() {
           <div key={index}>{value}</div>
         ))}
       </div>
+      
       <Controls callback={addToInput} />
     </div>
   );

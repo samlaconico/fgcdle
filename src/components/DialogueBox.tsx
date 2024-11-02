@@ -21,7 +21,7 @@ export default function DialogueBox({ header, children }: DialogueBoxProps) {
       ref={dialogRef}
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: .3 }}
       className="rounded-md bg-neutral-600 p-10 text-white"
     >
       <h1 className="mb-6 text-3xl font-bold">{header}</h1>
