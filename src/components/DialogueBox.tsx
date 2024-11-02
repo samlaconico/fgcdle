@@ -10,18 +10,19 @@ export default function DialogueBox({ header, children }: DialogueBoxProps) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   dialogRef.current?.showModal();
   useLayoutEffect(() => {
-    dialogRef.current?.showModal();
+    const ref = dialogRef;
+    ref.current?.showModal();
     return () => {
-      dialogRef.current?.close();
+      ref.current?.close();
     };
-  }, []);
+  }, [dialogRef]);
 
   return (
     <motion.dialog
       ref={dialogRef}
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: .3 }}
+      transition={{ duration: 0.3 }}
       className="rounded-md bg-neutral-600 p-10 text-white"
     >
       <h1 className="mb-6 text-3xl font-bold">{header}</h1>

@@ -56,8 +56,12 @@ export default function MotionGame() {
       if (
         input.charAt(input.length - 1) != moveInput.charAt(input.length - 1)
       ) {
-        setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
-        reset();
+        if(wrongGuesses < 3) {
+          setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
+          reset();
+        } else {
+          setIsLose(true);
+        }
       }
     }
   }, [input, moveInput]);
@@ -87,7 +91,7 @@ export default function MotionGame() {
           <div key={index}>{value}</div>
         ))}
       </div>
-      
+      {wrongGuesses}
       <Controls callback={addToInput} />
     </div>
   );
