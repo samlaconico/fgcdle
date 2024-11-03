@@ -14,6 +14,15 @@ interface Special {
 }
 
 export default function MotionGame() {
+  const [current, setCurrent] = useState<number>(0); //current index of array
+  const [moveInput, setMoveInput] = useState<string>("1"); //input of current move displayed
+  const [input, setInput] = useState<string>(); //input of player
+  const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
+  const [isLose, setIsLose] = useState<boolean>(false); //lose state
+  const [scope, animate] = useAnimate();
+  const [wrongGuesses, setWrongGuesses] = useState<number>(0); //number of incorrect guesses
+
+  //load data from api
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("/api");
@@ -27,20 +36,14 @@ export default function MotionGame() {
 
   const [sp, setSp] = useState<Special[]>([{ name: "", image: "", input: "" }]);
 
+  //once special list is set, load current input into moveInput
   useEffect(() => {
     if (sp) {
       setMoveInput(sp[current].input);
     }
   }, [sp]);
 
-  const [current, setCurrent] = useState<number>(0);
-  const [moveInput, setMoveInput] = useState<string>("1");
-  const [input, setInput] = useState<string>();
-  const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
-  const [isLose, setIsLose] = useState<boolean>(false);
-  const [scope, animate] = useAnimate();
-  const [wrongGuesses, setWrongGuesses] = useState<number>(0);
-
+  //go to next move
   const reset = async () => {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -58,10 +61,12 @@ export default function MotionGame() {
     }
   };
 
+  //wrong input
   if (input == moveInput) {
     reset();
   }
 
+  //add last input to the input
   const addToInput = (newInput: string) => {
     if (newInput != "5") {
       if (input != undefined) {
@@ -74,6 +79,7 @@ export default function MotionGame() {
     }
   };
 
+  //when input is changed, check to see if it's wrong
   useEffect(() => {
     if (input != undefined) {
       if (
@@ -106,7 +112,6 @@ export default function MotionGame() {
             className="m-auto h-fit w-auto md:h-full"
             src={sp[current].image}
           />
-          <button onClick={reset}>next</button>
         </div>
       </motion.div>
       <div>
@@ -123,8 +128,6 @@ export default function MotionGame() {
           <div key={index}>{value}</div>
         ))}
       </div>
-      {sp[current].name}
-      {wrongGuesses}
       <Controls callback={addToInput} />
     </div>
   );
