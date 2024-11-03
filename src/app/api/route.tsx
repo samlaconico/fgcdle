@@ -30,6 +30,6 @@ function random(seed: number) {
 }
 
 export async function GET() {
-  const list = shuffle(SpecialsList, 1234);
+  const list = shuffle(SpecialsList, 1);
   return NextResponse.json(list);
 }
