@@ -2,17 +2,40 @@
 
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
-import { SpecialsList } from "@/data/index";
 import { inputList } from "@/data";
 import { motion } from "framer-motion";
 import { useAnimate } from "framer-motion";
 import DialogueBox from "./DialogueBox";
 
+interface Special {
+  name: string;
+  image: string;
+  input: string;
+}
+
 export default function MotionGame() {
+  useEffect(() => {
+    async function fetchData() {
+      let res = await fetch("/api");
+      let data = await res.json();
+
+      setSp(data);
+      console.log(sp);
+    }
+
+    fetchData();
+  }, []);
+
+  const [sp, setSp] = useState<Special[]>([{ name: "", image: "", input: "" }]);
+
+  useEffect(() => {
+    if (sp) {
+      setMoveInput(sp[current].input);
+    }
+  }, [sp]);
+
   const [current, setCurrent] = useState<number>(0);
-  const [moveInput, setMoveInput] = useState<string>(
-    SpecialsList[current].input,
-  );
+  const [moveInput, setMoveInput] = useState<string>("1");
   const [input, setInput] = useState<string>();
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
   const [isLose, setIsLose] = useState<boolean>(false);
@@ -23,12 +46,13 @@ export default function MotionGame() {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
     await new Promise((resolve) => setTimeout(resolve, 300));
     setCurrent(current + 1);
-    animate("div", { opacity: 1, y: 0 }, { duration: 0.3, delay: 0.3 });
+    animate("div", { opacity: 1, y: 0 }, { duration: 0.6, delay: 0.6 });
 
     setInput(undefined);
-    setMoveInput(SpecialsList[current + 1].input);
+    setMoveInput(sp[current + 1].input);
 
     await new Promise((resolve) => setTimeout(resolve, 300));
+    console.log(sp);
 
     if (!isLose) {
       setInputIcons([]);
@@ -54,9 +78,9 @@ export default function MotionGame() {
   useEffect(() => {
     if (input != undefined) {
       if (
-        input.charAt(input.length - 1) != moveInput.charAt(input.length - 1)
+        input.charAt(input.length - 1) != moveInput?.charAt(input.length - 1)
       ) {
-        if(wrongGuesses < 3) {
+        if (wrongGuesses < 3) {
           setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
           reset();
         } else {
@@ -66,13 +90,22 @@ export default function MotionGame() {
     }
   }, [input, moveInput]);
 
+  if (!sp)
+    return (
+      <div>
+        <motion.div ref={scope}>
+          <div>Loading</div>
+        </motion.div>
+      </div>
+    );
+
   return (
     <div className="m-auto my-12 px-8 text-center text-white md:my-32">
       <motion.div ref={scope} className="">
         <div className="flex aspect-auto h-[40vh] w-full flex-col md:h-96">
           <img
             className="m-auto h-fit w-auto md:h-full"
-            src={SpecialsList[current].image}
+            src={sp[current].image}
           />
           <button onClick={reset}>next</button>
         </div>
@@ -91,6 +124,7 @@ export default function MotionGame() {
           <div key={index}>{value}</div>
         ))}
       </div>
+      {sp[current].name}
       {wrongGuesses}
       <Controls callback={addToInput} />
     </div>
