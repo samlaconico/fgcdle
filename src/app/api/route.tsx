@@ -8,7 +8,7 @@ interface Special {
 }
 
 function shuffle( array: Special[], seed: number ) {
-  var m = array.length,
+  let m = array.length,
     t,
     i;
 

@@ -16,8 +16,8 @@ interface Special {
 export default function MotionGame() {
   useEffect(() => {
     async function fetchData() {
-      let res = await fetch("/api");
-      let data = await res.json();
+      const res = await fetch("/api");
+      const data = await res.json();
 
       setSp(data);
       console.log(sp);
