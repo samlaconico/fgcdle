@@ -20,7 +20,6 @@ export default function MotionGame() {
       const data = await res.json();
 
       setSp(data);
-      console.log(sp);
     }
 
     fetchData();
