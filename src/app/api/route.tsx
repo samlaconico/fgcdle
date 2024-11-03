@@ -1,5 +1,5 @@
 import { SpecialsList } from "@/data";
-import {NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 interface Special {
   name: string;
@@ -30,6 +30,6 @@ function random(seed: number) {
 }
 
 export async function GET() {
-  const list = shuffle(SpecialsList, 1);
-  return NextResponse.json(list);
+  const list = shuffle(SpecialsList, 1234);
+  return NextResponse.json(SpecialsList);
 }
