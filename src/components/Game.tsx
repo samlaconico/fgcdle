@@ -107,7 +107,7 @@ export default function MotionGame() {
   return (
     <div className="m-auto my-12 px-8 text-center text-white md:my-32">
       <motion.div ref={scope} className="">
-        <div className="flex aspect-auto h-[40vh] w-full flex-col md:h-96">
+        <div className="flex aspect-auto h-[20vh] w-full flex-col md:h-44">
           <img
             className="m-auto h-fit w-auto md:h-full"
             src={sp[current].image}
