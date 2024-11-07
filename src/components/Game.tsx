@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useAnimate } from "framer-motion";
 import DialogueBox from "./DialogueBox";
 import Loading from "@/app/loading";
-import { cookies } from "next/headers";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface Special {
@@ -21,7 +20,7 @@ export default function MotionGame() {
   
   //check local storage
   useEffect(() => {
-    setPlay(true);
+    setPlay();
   }, []);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0); //current index of array
