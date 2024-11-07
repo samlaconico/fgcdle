@@ -1,11 +1,12 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Controls from "./Controls";
 import { inputList } from "@/data";
 import { motion } from "framer-motion";
 import { useAnimate } from "framer-motion";
 import DialogueBox from "./DialogueBox";
+import Loading from "@/app/loading";
+import { cookies } from "next/headers";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface Special {
   name: string;
@@ -14,13 +15,25 @@ interface Special {
 }
 
 export default function MotionGame() {
-  const [current, setCurrent] = useState<number>(0); //current index of array
+  "use client";
+
+  const [play, setPlay] = useLocalStorage("played", "true");
+  
+  //check local storage
+  useEffect(() => {
+    setPlay(true);
+  }, []);
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0); //current index of array
   const [moveInput, setMoveInput] = useState<string>("1"); //input of current move displayed
   const [input, setInput] = useState<string>(); //input of player
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
   const [isLose, setIsLose] = useState<boolean>(false); //lose state
   const [scope, animate] = useAnimate();
   const [wrongGuesses, setWrongGuesses] = useState<number>(0); //number of incorrect guesses
+  const [specialMove, setSpecialMove] = useState<Special[]>([
+    { name: "", image: "", input: "" },
+  ]);
 
   //load data from api
   useEffect(() => {
@@ -28,33 +41,30 @@ export default function MotionGame() {
       const res = await fetch("/api");
       const data = await res.json();
 
-      setSp(data);
+      setSpecialMove(data);
     }
 
     fetchData();
   }, []);
 
-  const [sp, setSp] = useState<Special[]>([{ name: "", image: "", input: "" }]);
-
   //once special list is set, load current input into moveInput
   useEffect(() => {
-    if (sp) {
-      setMoveInput(sp[current].input);
+    if (specialMove) {
+      setMoveInput(specialMove[currentIndex].input);
     }
-  }, [sp]);
+  }, [specialMove]);
 
   //go to next move
   const reset = async () => {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    setCurrent(current + 1);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    setCurrentIndex(currentIndex + 1);
     animate("div", { opacity: 1, y: 0 }, { duration: 0.6, delay: 0.6 });
 
     setInput(undefined);
-    setMoveInput(sp[current + 1].input);
+    setMoveInput(specialMove[currentIndex + 1].input);
 
     await new Promise((resolve) => setTimeout(resolve, 300));
-    console.log(sp);
 
     if (!isLose) {
       setInputIcons([]);
@@ -95,23 +105,25 @@ export default function MotionGame() {
     }
   }, [input, moveInput]);
 
-  if (!sp)
+  if (!specialMove)
     return (
-      <div>
+      <div className="m-auto my-12 px-8 text-center text-white md:my-32">
         <motion.div ref={scope}>
-          <div>Loading</div>
+          <div>Loading...</div>
         </motion.div>
       </div>
     );
 
   return (
-    <div className="m-auto my-12 px-8 text-center text-white md:my-32">
+    <div className="m-auto h-min w-11/12 rounded-xl bg-neutral-700 px-8 py-6 text-center text-white md:w-1/2">
       <motion.div ref={scope} className="">
-        <div className="flex aspect-auto h-[20vh] w-full flex-col md:h-44">
-          <img
-            className="m-auto h-fit w-auto md:h-full"
-            src={sp[current].image}
-          />
+        <div className="flex aspect-auto h-[20vh] w-full flex-col py-4 md:h-72">
+          <Suspense fallback={<Loading />}>
+            <img
+              className="m-auto h-fit w-auto md:h-full"
+              src={specialMove[currentIndex].image}
+            />
+          </Suspense>
         </div>
       </motion.div>
       <div>

@@ -33,7 +33,7 @@ export default function DialogueBox({ header, children }: DialogueBoxProps) {
         onClick={() => {
           dialogRef.current?.close();
         }}
-        className="rounded-sm bg-neutral-300 px-2 py-0.5 text-black transition-all hover:scale-105"
+        className="rounded-sm bg-neutral-300 px-2 py-0.5 text-black transition-transform hover:bg-neutral-400"
       >
         Close
       </button>
