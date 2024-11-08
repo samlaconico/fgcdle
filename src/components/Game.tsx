@@ -28,11 +28,8 @@ export default function MotionGame() {
     { name: "", image: "", input: "" },
   ]);
 
-
   //check local storage
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   //load data from api
   useEffect(() => {
@@ -98,27 +95,27 @@ export default function MotionGame() {
           setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
           reset();
         } else {
-          setPlay(true)
+          setPlay(true);
           setIsLose(true);
         }
       }
     }
   }, [input, moveInput]);
 
-
   return (
     <div className="m-auto h-min w-11/12 rounded-xl bg-neutral-700 px-8 py-6 text-center text-white md:w-1/2">
       <motion.div ref={scope} className="">
         <div className="flex aspect-auto h-[20vh] w-full flex-col py-4 md:h-72">
-            <img
-              className="m-auto h-fit w-auto md:h-full"
-              src={specialMove[currentIndex].image}
-            />
+          <img
+            className="m-auto h-fit w-auto md:h-full"
+            src={specialMove[currentIndex].image}
+          />
         </div>
       </motion.div>
       <div>
-          <DialogueBox open={isLose} header="you lose ahah">
-          </DialogueBox>
+        <DialogueBox open={isLose} header="you lose ahah">
+            <p className="mb-6 text-xl">you lose</p>
+        </DialogueBox>
       </div>
       <div className="m-auto mb-10 mt-10 flex h-12 flex-row justify-center md:mb-0">
         {inputIcons.map((value, index) => (

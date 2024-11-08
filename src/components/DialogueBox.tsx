@@ -30,7 +30,7 @@ export default function DialogueBox({ header, children, open}: DialogueBoxProps)
     >
       <h1 className="mb-6 text-3xl font-bold">{header}</h1>
 
-      <p className="mb-6 text-xl">{children}</p>
+      {children}
 
       <button
         onClick={() => {
