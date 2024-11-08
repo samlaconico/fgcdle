@@ -1,14 +1,17 @@
+"use client"
+
 import { motion } from "framer-motion";
 import { useLayoutEffect, useRef } from "react";
 
 type DialogueBoxProps = {
   header: string;
   children: React.ReactNode;
+  open: boolean
 };
 
-export default function DialogueBox({ header, children }: DialogueBoxProps) {
+export default function DialogueBox({ header, children, open}: DialogueBoxProps) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  dialogRef.current?.showModal();
+  open ? dialogRef.current?.showModal() : dialogRef.current?.close();
   useLayoutEffect(() => {
     const ref = dialogRef;
     ref.current?.showModal();

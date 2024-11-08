@@ -4,7 +4,6 @@ import { inputList } from "@/data";
 import { motion } from "framer-motion";
 import { useAnimate } from "framer-motion";
 import DialogueBox from "./DialogueBox";
-import Loading from "@/app/loading";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface Special {
@@ -16,26 +15,24 @@ interface Special {
 export default function MotionGame() {
   "use client";
 
-  const [play, setPlay] = useLocalStorage("played", "true");
+  const [play, setPlay] = useLocalStorage("played", false);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0); //current index of array
   const [moveInput, setMoveInput] = useState<string>("1"); //input of current move displayed
   const [input, setInput] = useState<string>(); //input of player
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
-  const [isLose, setIsLose] = useState<boolean>(false); //lose state
+  const [isLose, setIsLose] = useState<boolean>(play); //lose state
   const [scope, animate] = useAnimate();
   const [wrongGuesses, setWrongGuesses] = useState<number>(0); //number of incorrect guesses
   const [specialMove, setSpecialMove] = useState<Special[]>([
     { name: "", image: "", input: "" },
   ]);
 
+
   //check local storage
   useEffect(() => {
-    setPlay("false");
-    if (isLose) {
-      setPlay("true");
-    }
-  }, [isLose]);
+    
+  }, []);
 
   //load data from api
   useEffect(() => {
@@ -101,41 +98,27 @@ export default function MotionGame() {
           setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
           reset();
         } else {
+          setPlay(true)
           setIsLose(true);
         }
       }
     }
   }, [input, moveInput]);
 
-  if (!specialMove)
-    return (
-      <div className="m-auto my-12 px-8 text-center text-white md:my-32">
-        <motion.div ref={scope}>
-          <div>Loading...</div>
-        </motion.div>
-      </div>
-    );
 
   return (
     <div className="m-auto h-min w-11/12 rounded-xl bg-neutral-700 px-8 py-6 text-center text-white md:w-1/2">
       <motion.div ref={scope} className="">
         <div className="flex aspect-auto h-[20vh] w-full flex-col py-4 md:h-72">
-          <Suspense fallback={<Loading />}>
             <img
               className="m-auto h-fit w-auto md:h-full"
               src={specialMove[currentIndex].image}
             />
-          </Suspense>
         </div>
       </motion.div>
       <div>
-        {isLose ? (
-          <DialogueBox header="you lose ahah">
-            <p>you lose</p>
+          <DialogueBox open={isLose} header="you lose ahah">
           </DialogueBox>
-        ) : (
-          ""
-        )}
       </div>
       <div className="m-auto mb-10 mt-10 flex h-12 flex-row justify-center md:mb-0">
         {inputIcons.map((value, index) => (
