@@ -17,11 +17,6 @@ export default function MotionGame() {
   "use client";
 
   const [play, setPlay] = useLocalStorage("played", "true");
-  
-  //check local storage
-  useEffect(() => {
-    setPlay();
-  }, []);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0); //current index of array
   const [moveInput, setMoveInput] = useState<string>("1"); //input of current move displayed
@@ -33,6 +28,14 @@ export default function MotionGame() {
   const [specialMove, setSpecialMove] = useState<Special[]>([
     { name: "", image: "", input: "" },
   ]);
+
+  //check local storage
+  useEffect(() => {
+    setPlay("false");
+    if (isLose) {
+      setPlay("true");
+    }
+  }, [isLose]);
 
   //load data from api
   useEffect(() => {
