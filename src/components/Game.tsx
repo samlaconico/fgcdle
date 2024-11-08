@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import { inputList } from "@/data";
 import { motion } from "framer-motion";
