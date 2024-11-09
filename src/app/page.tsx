@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div>
+    <div className="font-figtree">
       <Header />
 
       <motion.div

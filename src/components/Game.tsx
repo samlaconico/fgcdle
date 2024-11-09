@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import { inputList } from "@/data";
@@ -13,23 +15,34 @@ interface Special {
 }
 
 export default function MotionGame() {
-  "use client";
+  //use custom hook to create data in local storage
+  const [gameDataState, setGameDataState] = useLocalStorage("gameData", {
+    hasPlayed: false,
+    wrong: 0,
+    currentGuesses: 0,
+    guesses: ["", "", "", "", "", ""],
+  });
 
-  const [play, setPlay] = useLocalStorage("played", false);
-
+  //initialize all the states used
   const [currentIndex, setCurrentIndex] = useState<number>(0); //current index of array
   const [moveInput, setMoveInput] = useState<string>("1"); //input of current move displayed
   const [input, setInput] = useState<string>(); //input of player
   const [inputIcons, setInputIcons] = useState<JSX.Element[]>([]);
-  const [isLose, setIsLose] = useState<boolean>(play); //lose state
-  const [scope, animate] = useAnimate();
+  const [isLose, setIsLose] = useState<boolean>(false); //lose state
   const [wrongGuesses, setWrongGuesses] = useState<number>(0); //number of incorrect guesses
   const [specialMove, setSpecialMove] = useState<Special[]>([
     { name: "", image: "", input: "" },
   ]);
 
+  //animation hook
+  const [scope, animate] = useAnimate();
+
   //check local storage
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setIsLose(gameDataState.hasPlayed);
+    setWrongGuesses(gameDataState.wrong);
+    setCurrentIndex(gameDataState.currentGuesses);
+  }, []);
 
   //load data from api
   useEffect(() => {
@@ -51,10 +64,11 @@ export default function MotionGame() {
   }, [specialMove]);
 
   //go to next move
-  const reset = async () => {
+  const next = async () => {
     animate("div", { opacity: 0, y: -50 }, { duration: 0.3 });
     await new Promise((resolve) => setTimeout(resolve, 400));
     setCurrentIndex(currentIndex + 1);
+    setGameDataState({...gameDataState, currentGuess: currentIndex + 1 });
     animate("div", { opacity: 1, y: 0 }, { duration: 0.6, delay: 0.6 });
 
     setInput(undefined);
@@ -69,7 +83,7 @@ export default function MotionGame() {
 
   //wrong input
   if (input == moveInput) {
-    reset();
+    next();
   }
 
   //add last input to the input
@@ -93,9 +107,15 @@ export default function MotionGame() {
       ) {
         if (wrongGuesses < 3) {
           setWrongGuesses((wrongGuesses) => wrongGuesses + 1);
-          reset();
+          setGameDataState({ ...gameDataState, wrong: wrongGuesses + 1 });
+          next();
         } else {
-          setPlay(true);
+          setGameDataState({
+            ...gameDataState,
+            hasPlayed: true,
+            wrong: wrongGuesses,
+          });
+
           setIsLose(true);
         }
       }
@@ -112,9 +132,18 @@ export default function MotionGame() {
           />
         </div>
       </motion.div>
+      <div className="flex w-full flex-row justify-center">
+        {(() => {
+          const wrongSymbols = [];
+          for (let i = 0; i < wrongGuesses; i++) {
+            wrongSymbols.push(<div> X </div>);
+          }
+          return wrongSymbols;
+        })()}
+      </div>
       <div>
         <DialogueBox open={isLose} header="you lose ahah">
-            <p className="mb-6 text-xl">you lose</p>
+          <p className="mb-6 text-xl">you lose</p>
         </DialogueBox>
       </div>
       <div className="m-auto mb-10 mt-10 flex h-12 flex-row justify-center md:mb-0">

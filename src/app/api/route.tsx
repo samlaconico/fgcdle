@@ -30,5 +30,5 @@ function random(seed: number) {
 
 export async function GET() {
   const list = shuffle(SpecialsList, 1);
-  return Response.json(list);
+  return Response.json(list.slice(0, 5));
 }
