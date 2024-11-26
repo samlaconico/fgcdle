@@ -1,12 +1,10 @@
-import { SpecialsList } from "@/data";
-
 interface Special {
   name: string;
   image: string;
   input: string;
 }
 
-function shuffle(array: Special[], seed: number) {
+export function shuffle(array: Special[], seed: number) {
   let m = array.length,
     t,
     i;
@@ -20,15 +18,10 @@ function shuffle(array: Special[], seed: number) {
     ++seed;
   }
 
-  return array;
+  return array.splice(0, 5);
 }
 
 function random(seed: number) {
   const x = Math.sin(seed++) * 10000;
   return x - Math.floor(x);
-}
-
-export async function GET() {
-  const list = shuffle(SpecialsList, 1);
-  return Response.json(list.slice(0, 5));
 }
